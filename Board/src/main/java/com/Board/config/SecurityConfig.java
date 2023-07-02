@@ -22,7 +22,7 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// form을 통한 로그인 설정
 		http.formLogin(form -> form
-		.loginPage("/member/login")		// 로그인 페이지 url설정
+		.loginPage("/member/login").permitAll()		// 로그인 페이지 url설정
 		.defaultSuccessUrl("/")				// 로그인 성공 시 이동 할 페이지
 		.usernameParameter("loginId")			// 로그인 시 사용 할 파라메터 이름
 		.passwordParameter("password")
@@ -30,7 +30,8 @@ public class SecurityConfig {
 		.failureUrl("/member/login/error"))	// 로그인 실패 시 이동 할 url
 		.logout(form -> form
 		.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))	// 로그아웃 url
-		.logoutSuccessUrl("/"));				// 로그아웃 성공 시 이동 할 url
+		.logoutSuccessUrl("/"));
+        // 로그아웃 성공 시 이동 할 url
 		
 	    http
 	        .authorizeHttpRequests((authz) -> authz

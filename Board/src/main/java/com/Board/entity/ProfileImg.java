@@ -1,6 +1,9 @@
 package com.Board.entity;
 
 import lombok.ToString;
+
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,9 +34,18 @@ public class ProfileImg extends RegistDate {
 	@JoinColumn(name="member_id")
 	private Member member;
 	
+	// 프로필 이미지 저장
 	public void updateProfileImg(String pro_ori_img_name, String pro_use_img_name, String pro_img_path) {
 		this.pro_ori_img_name = pro_ori_img_name;
 		this.pro_use_img_name = pro_use_img_name;
 		this.pro_img_path = pro_img_path;
+	}
+	
+	public static ProfileImg createProfileImg(String ori_img_name, String img_name, String img_url) {
+	    ProfileImg profileImg = new ProfileImg();
+	    profileImg.setPro_ori_img_name(ori_img_name);
+	    profileImg.setPro_use_img_name(img_name);
+	    profileImg.setPro_img_path(img_url);
+	    return profileImg;
 	}
 }

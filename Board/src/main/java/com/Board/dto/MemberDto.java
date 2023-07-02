@@ -4,8 +4,10 @@ package com.Board.dto;
 import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.Length;
+import org.modelmapper.ModelMapper;
 
 import com.Board.constant.MemberRole;
+import com.Board.entity.Member;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Null;
@@ -54,5 +56,12 @@ public class MemberDto {
 	private MemberRole role;
 	
 	private LocalDateTime regTime;
+	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
+	// view와 연결지점인 dto를 DB와 연결지점인 Entity 정보로 변환하는 메소드
+	public static MemberDto updateEntity (Member member) {
+		return modelMapper.map(member, MemberDto.class);
+	}
 
 }

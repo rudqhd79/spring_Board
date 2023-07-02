@@ -1,16 +1,22 @@
 package com.Board.service;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.Board.dto.MemberDto;
 import com.Board.entity.Member;
+import com.Board.entity.ProfileImg;
 import com.Board.repository.MemberRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,6 +25,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberService implements UserDetailsService {
 
 	private final MemberRepository memberRepository;
+	
+	private final FileService fileService;
+	
+	@Value("{userProfileImgLocation}")
+	private String userProfileImgLocation;
 	
 	// Spring Security에 담은 사용자의 정보를 담는 것이 UserDetails이다 (VO 역할)
 	@Override
@@ -37,17 +48,45 @@ public class MemberService implements UserDetailsService {
 				  .roles(member.getRole().toString()).build();
 	}
 	
+	// 회원가입
 	public Member save (Member member) {
 		validateDuplication(member);
 		return memberRepository.save(member);
 	}
 	
+	// 이미 가입되어있는 회원 판별
 	private void validateDuplication(Member member) {
 		Member findMember = memberRepository.findByLoginId(member.getLoginId());
 		if (findMember != null) {
 			throw new IllegalStateException("이미 존재하는 회원입니다.");
 		}
 	}
+	
+	// 프로필 이미지를 entity로 넘긴다
+	public Member saveProfileImg(Member member, MultipartFile profileImgs, String loginMember) throws Exception {
+		String ori_img_name = profileImgs.getOriginalFilename();
+		String img_name = "";
+		String img_url = "";
+		
+		if (!StringUtils.isEmpty(ori_img_name)) {
+			img_name = fileService.uploadFile(userProfileImgLocation, ori_img_name, profileImgs.getBytes());
+			img_url = "/images/profile/" + img_name;
+		} else {
+			ori_img_name = "";
+		}
+		return  member.addProfileImg(ori_img_name, img_name, img_url);
+	}
+	
+	@Transactional(readOnly = true)
+	public MemberDto getIdImgUrl(String loginId) {
+		// 현재 로그인한 사용자 정보
+		Member member = memberRepository.findByLoginId(loginId);
+		// dto로 변환
+		MemberDto memberDto = MemberDto.updateEntity(member);
+		return memberDto;
+	}
+	
+	
 
 	
 }

@@ -14,6 +14,7 @@ import lombok.Setter;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.Board.constant.MemberRole;
@@ -60,6 +61,13 @@ public class Member extends RegistDate {
     
     @OneToMany(mappedBy = "member")
     private List<Comment> comments;
+    
+    private static ModelMapper modelMapper = new ModelMapper();
+    
+    // DB와 연결지점인 Entity를 view 연결지점인 Dto로 변환하는 메소드
+    public static Member updateDto(MemberDto memberDto) {
+    	return modelMapper.map(memberDto, Member.class);
+    }
 
     // 회원 생성 메소드
     public static Member createMember(MemberDto memberDto, PasswordEncoder passwordEncoder, MemberRole role) {
@@ -79,4 +87,18 @@ public class Member extends RegistDate {
     	return member;
     }
     
+    // 메소드 체이닝으로 profileImg 추가
+    public Member addProfileImg(String ori_img_name, String img_name, String img_url) {
+    	ProfileImg profileImg = ProfileImg.createProfileImg(ori_img_name, img_name, img_url);
+    	this.addProfileImg(profileImg);
+    	return this;
+    }
+    
+    public void addProfileImg(ProfileImg profileImg) {
+        this.pro_imgs.add(profileImg);
+        profileImg.setMember(this);
+    }
+    
+
+
 }
