@@ -42,13 +42,13 @@ public class MemberController {
 	
 	//회원가입 버튼을 눌렀을때 실행되는 메소드
 		@PostMapping(value = "/member/new")
-		public String memberJoin(@Valid MemberDto memberFormDto, BindingResult bindingResult, Model model, @RequestParam("profileImgFile") MultipartFile profileImgFile, Principal principal) throws Exception {
+		public String memberJoin(@Valid MemberDto memberFormDto, BindingResult bindingResult, Model model, @RequestParam("profileImgFile") MultipartFile profileImgFile) throws Exception {
 			if(bindingResult.hasErrors()) {
 				return "member/memberJoin";
 			}
 			try {
 				Member memberNotImg = Member.createMember(memberFormDto, passwordEncoder, MemberRole.USER);
-				Member member = memberService.saveProfileImg(memberNotImg, profileImgFile, principal.getName());
+				Member member = memberService.saveProfileImg(memberNotImg, profileImgFile);
 				
 				memberService.save(member);
 			} catch (IllegalStateException e) {

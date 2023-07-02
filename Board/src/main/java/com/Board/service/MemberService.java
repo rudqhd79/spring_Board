@@ -63,7 +63,7 @@ public class MemberService implements UserDetailsService {
 	}
 	
 	// 프로필 이미지를 entity로 넘긴다
-	public Member saveProfileImg(Member member, MultipartFile profileImgs, String loginMember) throws Exception {
+	public Member saveProfileImg(Member member, MultipartFile profileImgs) throws Exception {
 		String ori_img_name = profileImgs.getOriginalFilename();
 		String img_name = "";
 		String img_url = "";

@@ -93,7 +93,6 @@ public class Member extends RegistDate {
     	this.addProfileImg(profileImg);
     	return this;
     }
-    
     public void addProfileImg(ProfileImg profileImg) {
         this.pro_imgs.add(profileImg);
         profileImg.setMember(this);
