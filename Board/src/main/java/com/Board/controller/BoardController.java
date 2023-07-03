@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(value = "/board")
 public class BoardController {
 
-	private final BoardRepository boardRepository;
-	private final BoardService boardService;
+	/*
+	 * private final BoardRepository boardRepository; private final BoardService
+	 * boardService;
+	 */
 	
 	// 게시판 목록화면
 	// post create에서 제목이랑 같이 생성된다

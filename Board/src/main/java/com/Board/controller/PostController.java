@@ -17,15 +17,15 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(value = "/post")
 public class PostController {
 
-	// 글쓰기 메뉴를 눌러 진입 경로
-	@GetMapping(value="")
-	public String postPage (Model model, Principal principal) {
+	// 게시글 작성 페이지
+	@GetMapping(value="/write")
+	public String writePost (Model model, Principal principal) {
 		PostDto postDto = new PostDto();
 		return "post/write";
 	}
 	
-	// 글쓰기 게시물 누를 때
-	@PostMapping(value = "/write")
+	// 게시글 작성 submit 경로
+	@PostMapping(value = "/new")
 	public String writePost() {
 		return "redirect:/post/list";
 	}

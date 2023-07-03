@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,7 +30,7 @@ public class Board extends RegistDate {
 	private String title;	// 게시글 제목
 	
 	// 조회 수 기본값을 0으로 지정
-	@Column(columnDefinition = "integer default0", nullable=false)
+	@Column(columnDefinition = "integer default 0", nullable=false)
 	private int views;		// 게시글 조회수
 	
 	@ManyToOne(fetch = FetchType.LAZY)
