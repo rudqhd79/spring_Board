@@ -60,6 +60,7 @@ public class Member extends RegistDate {
     @OneToMany(mappedBy = "member")
     private List<ProfileImg> pro_imgs;
     
+    // 나중에 게시판 종류를 더 확장할 거 같아서 Many로 했다
     @OneToMany(mappedBy = "member")
     private List<Board> boards;
     

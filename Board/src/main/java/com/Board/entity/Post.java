@@ -37,4 +37,10 @@ public class Post extends RegistDate {
 
 	@OneToMany(mappedBy = "post")
 	private List<PostImg> postImgs;
+	
+	public static Post createPost(String detail) {
+		Post post = new Post();
+		post.setPost_detail(detail);
+		return post;
+	}
 }
