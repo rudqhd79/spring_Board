@@ -5,10 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +35,7 @@ public class Member extends RegistDate {
     private Long id; // 회원 식별자
     private String name; // 회원 실명
     private String password; // 회원 로그인 비밀번호
+    
     private String hintA; // 회원 힌트에 대한 답변
     
     @Column(unique = true, nullable = false)
@@ -49,9 +53,9 @@ public class Member extends RegistDate {
     @Enumerated(EnumType.STRING)
     private MemberRole role;	// 권한s
 
-    // mappedBy는 해당 객체의 관계도 주인의 entity에 생성한다
-    @OneToMany(mappedBy = "member")
-    private List<Hint> hints;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="hint_id")
+    private Hint hint; // 회원 힌트 질문 (select로 선택하여 가져옴)
     
     @OneToMany(mappedBy = "member")
     private List<ProfileImg> pro_imgs;
@@ -93,11 +97,9 @@ public class Member extends RegistDate {
     	this.addProfileImg(profileImg);
     	return this;
     }
+    
     public void addProfileImg(ProfileImg profileImg) {
         this.pro_imgs.add(profileImg);
         profileImg.setMember(this);
     }
-    
-
-
 }

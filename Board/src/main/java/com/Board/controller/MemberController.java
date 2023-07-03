@@ -48,7 +48,7 @@ public class MemberController {
 		return "member/memberJoin";
 	}
 	
-	//회원가입 버튼을 눌렀을때 실행되는 메소드
+	// 회원가입 버튼을 눌렀을때 실행되는 메소드
 		@PostMapping(value = "/member/new")
 		public String memberJoin(@Valid MemberDto memberFormDto, BindingResult bindingResult, Model model, @RequestParam("profileImgFile") MultipartFile profileImgFile) throws Exception {
 			if(bindingResult.hasErrors()) {

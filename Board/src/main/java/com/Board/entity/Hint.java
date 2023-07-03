@@ -19,21 +19,11 @@ import lombok.Setter;
 @ToString
 public class Hint {
 	
+	// 관리자 계정만 질문 변경 가능)
+	// select box에서 질문을 생성하자
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="hint_id")
 	private Long id;	// 힌트 식별자
-	private String hintQ1;	// 힌트1
-	private String hintQ2;	// 힌트2
-	private String hintQ3;	// 힌트3
-	private String hintQ4;	// 힌트4
-	private String hintQ5;	// 힌트5
-	private String hintQ6;	// 힌트6
-	private String hintQ7;	// 힌트7
-	private String hintQ8;	// 힌트8
-	
-	// ToOne으로 끝나는 관계는 항상 fetch Lazy를 해줘야 한다
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id") // 회원 엔티티의 외래 키
-	private Member member;
+	private String hintQ;	// 힌트
 }
