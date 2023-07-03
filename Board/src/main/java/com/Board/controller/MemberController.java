@@ -33,6 +33,14 @@ public class MemberController {
 		return "member/memberLogin";
 	}
 	
+	// 로그인에 실패 했을 때 model attribute를 통해 에러 메시지 view에 전달
+	@GetMapping(value = "/member/login/error")
+	public String loginFail(Model model) {
+		// attribute는 key, value
+		model.addAttribute("errorMessage", "로그인 실패, 다시 확인해 주세요.");
+		return "member/login";
+	}
+	
 	// 회원가입 페이지 버튼
 	@GetMapping(value = "/member/join")
 	public String joinPage(Model model) {
@@ -47,7 +55,9 @@ public class MemberController {
 				return "member/memberJoin";
 			}
 			try {
+				// 회원정보
 				Member memberNotImg = Member.createMember(memberFormDto, passwordEncoder, MemberRole.USER);
+				// 프로필 이미지 정보
 				Member member = memberService.saveProfileImg(memberNotImg, profileImgFile);
 				
 				memberService.save(member);

@@ -64,11 +64,12 @@ public class MemberService implements UserDetailsService {
 	
 	// 프로필 이미지를 entity로 넘긴다
 	public Member saveProfileImg(Member member, MultipartFile profileImgs) throws Exception {
-		String ori_img_name = profileImgs.getOriginalFilename();
-		String img_name = "";
-		String img_url = "";
+		String ori_img_name = profileImgs.getOriginalFilename();	// 원본 이름
+		String img_name = "";	// 프로그래밍 이름
+		String img_url = "";		// 경로
 		
-		if (!StringUtils.isEmpty(ori_img_name)) {
+		// StringUtil에서 isEmpty가 deprecated라서 hasText로 바꿨다(조건은 반대)
+		if (StringUtils.hasText(ori_img_name)) {
 			img_name = fileService.uploadFile(userProfileImgLocation, ori_img_name, profileImgs.getBytes());
 			img_url = "/images/profile/" + img_name;
 		} else {

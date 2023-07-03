@@ -26,9 +26,4 @@ public class MainController {
 		}
 		return "main";
 	}
-	
-	@GetMapping(value="/member/login")
-	public String login() {
-		return "login";
-	}
 }

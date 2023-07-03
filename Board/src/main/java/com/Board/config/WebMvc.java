@@ -9,10 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvc implements WebMvcConfigurer {
 	
-	// application properties에 있는 uploadPath라는 명칭에 파일 경로를 입력한다
 	// @Value는 경로 값을 가져온다
 	// autowired가 주입되지 않아 직접 application.properties에 있는 값을 가져왔다
-	@Value("${uploadPath:C:\\Board}")
+	// application properties에서 경로 인식이 안되면 직접 입력하자 ${uploadPath:C:\\Board}
+	@Value("${uploadPath}")
 	String uploadPath;
 
 	// 정적 리소스의 위치와 요청 경로간의 매핑 설정 가능
