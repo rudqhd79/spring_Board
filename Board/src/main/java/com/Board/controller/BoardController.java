@@ -1,7 +1,11 @@
 package com.Board.controller;
 
 import java.security.Principal;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,10 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Board.dto.BoardListDto;
+import com.Board.dto.BoardSearchDto;
 import com.Board.dto.PostDto;
 import com.Board.entity.Board;
 import com.Board.repository.BoardRepository;
 import com.Board.service.BoardService;
+import com.Board.service.PostService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,40 +29,19 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(value = "/board")
 public class BoardController {
 
-	private final BoardService boardService;
+	//private final BoardService boardService;
+	//private final PostService postService;
 	/*
 	 * private final BoardRepository boardRepository; private final BoardService
 	 * boardService;
 	 */
-	// 게시글 작성 페이지
-		  @GetMapping("/write")
-		  public String writePostPage(Model model, Principal principal) {
-		    PostDto postDto = boardService.getMemberInfo(principal.getName());
-		    model.addAttribute("postDto", postDto);
-		    return "post/write";
-		  }
-
-		  // 게시글 작성 처리
-		  @PostMapping("/write")
-		  public String writePost(@RequestParam("memberId") String memberId,
-		                          @RequestParam("boardTitle") String boardTitle,
-		                          @RequestParam("postDetail") String postDetail) {
-		    boardService.writePost(memberId, boardTitle, postDetail);
-		    return "redirect:/board/list"; // 작성 후 목록 페이지로 리다이렉트
-		  }
-
-		  // 게시글 상세 페이지
-		  @GetMapping("/post/{postId}")
-		  public String viewPost(@PathVariable("postId") Long postId, Model model) {
-		    Board board = boardService.getBoardById(postId);
-		    model.addAttribute("board", board);
-		    return "post/view";
-		  }
-
-		  // 게시글 삭제
-		  @PostMapping("/post/{postId}/delete")
-		  public String deletePost(@PathVariable("postId") Long postId) {
-		    //boardService.deletePost(postId);
-		    return "redirect:/board/list"; // 삭제 후 목록 페이지로 리다이렉트
-		  }
+	
+	// 게시판 화면 진입
+	@GetMapping(value = "")
+	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model) {
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 15);
+		//Page<BoardListDto> posts = boardService.getPostListPage(boardSearchDto, pageable);
+		return "";
+	}
+	
 }

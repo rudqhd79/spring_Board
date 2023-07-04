@@ -9,7 +9,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 
-@EntityListeners(value = (AuditingEntityListener.class))
+@EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Getter
 public class RegistDate extends RegistDateTime{

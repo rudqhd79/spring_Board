@@ -1,7 +1,11 @@
 package com.Board.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.Board.dto.BoardListDto;
+import com.Board.dto.BoardSearchDto;
 import com.Board.dto.PostDto;
 import com.Board.entity.Board;
 import com.Board.entity.Member;
@@ -55,7 +59,13 @@ public class BoardService {
   public Board getBoardById(Long boardId) {
     return boardRepository.findById(boardId).orElse(null);
   }
-  
+/*
+  // 게시글 목록 가져오기
+public Page<BoardListDto> getPostListPage(BoardSearchDto boardSearchDto, Pageable pageable) {
+	return boardRepository.getBoardList(boardSearchDto, pageable);
+	return null;
+}
+ */
   /*
   // 게시글 삭제
   public void deletePost(Long postId) {
