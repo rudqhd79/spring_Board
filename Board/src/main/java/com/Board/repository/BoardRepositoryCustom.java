@@ -1,5 +1,5 @@
 package com.Board.repository;
-
+/*
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,18 +12,15 @@ import com.Board.dto.BoardListDto;
 import com.Board.dto.BoardSearchDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-
 import jakarta.persistence.EntityManager;
 
 public class BoardRepositoryCustom implements BoardRepository {
 	
 	private JPAQueryFactory jpaQueryFactory;
 	
-	public BoardRepositoryCustom (EntityManager em) {
+	public BoardRepositoryCustom(EntityManager em) {
 		this.jpaQueryFactory = new JPAQueryFactory(em);
 	}
-	
 	private BooleanExpression regDtsAfter(String searchDateType) {
 		LocalDateTime dateTime = LocalDateTime.now(); 
 		
@@ -70,5 +67,5 @@ public class BoardRepositoryCustom implements BoardRepository {
 
 			return new PageImpl<>(content, pageable, total);
 	}
-
 }
+ */

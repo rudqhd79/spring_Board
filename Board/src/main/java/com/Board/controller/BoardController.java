@@ -22,6 +22,7 @@ import com.Board.repository.BoardRepository;
 import com.Board.service.BoardService;
 import com.Board.service.PostService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -37,10 +38,18 @@ public class BoardController {
 	 */
 	
 	// 게시판 화면 진입
+	// 페이징은 QueryDSL이 안되는 관계로 일단 보류
 	@GetMapping(value = "")
 	public String boardList(BoardSearchDto boardSearchDto, Optional<Integer> page, Model model) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 15);
-		//Page<BoardListDto> posts = boardService.getPostListPage(boardSearchDto, pageable);
+		model.addAttribute("boardSearchDto", boardSearchDto);
+		// Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 15);
+		// Page<BoardListDto> posts = boardService.getPostListPage(boardSearchDto, pageable);
+		return "";
+	}
+	
+	@GetMapping(value="/list/{postId}")
+	public String postInfo(@PathVariable("postId") Long postId, @Valid PostDto postDto, Model model, Principal principal) {
+		
 		return "";
 	}
 	
