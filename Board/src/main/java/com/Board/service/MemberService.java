@@ -87,7 +87,10 @@ public class MemberService implements UserDetailsService {
 		return memberDto;
 	}
 	
-	
-
-	
+	// 게시글 쓴 회원
+	@Transactional(readOnly = true)
+	public Member findMember(String memberId) {
+		Member member = memberRepository.findByLoginId(memberId);
+		return member;
+	}
 }

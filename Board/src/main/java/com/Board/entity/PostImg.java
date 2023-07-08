@@ -31,4 +31,9 @@ public class PostImg extends RegistDate {
 	@JoinColumn(name = "post_id")
 	private Post post;
 	
+	public void addPostImg(String ori, String use, String path) {
+		this.post_ori_img_name = ori;
+		this.post_use_img_name = use;
+		this.post_path_img = path;
+	}
 }

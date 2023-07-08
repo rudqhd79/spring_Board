@@ -20,6 +20,8 @@ public class BoardDto {
 	
 	private int views;
 	
+	private Member member;
+	
 	private LocalDateTime regTime;
 	
 	private LocalDateTime updateTime;

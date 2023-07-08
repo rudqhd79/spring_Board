@@ -16,10 +16,11 @@ public class PostDto {
 	private Long memberId;	// 로그인한 사용자의 정보 담기용
 	private String post_detail;
 	private String memberName;
+	private String title;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
-	public Post updaetEntity() {
+	public Post updateEntity() {
 		return modelMapper.map(this, Post.class);
 	}
 	
@@ -27,10 +28,10 @@ public class PostDto {
 		return modelMapper.map(post, PostDto.class);
 	}
 	
-	public void postInfoFromBoard(Post post) {
-		this.id = post.getId();
-		this.memberId = post.getBoard().getMember().getId();
-		this.post_detail = post.getPost_detail();
-		this.memberName = post.getBoard().getMember().getName();
+	public void inputInfo(Long memberId, String detail, String title, String memberName) {
+		this.memberId = memberId;
+		this.memberName = memberName;
+		this.post_detail = detail;
+		this.title = title;
 	}
 }

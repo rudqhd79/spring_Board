@@ -13,8 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class ProfileImgService {
 
-	@Value("${profilePath}")
-	private String profilePath;
-	private final ProfileImgRepository profileImgRepository;
+	@Value("${userProfileImgLocation}")
+	private String userProfileImgLocation;
 	
 }
