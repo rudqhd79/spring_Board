@@ -26,6 +26,6 @@ public class BoardController {
 		// post ID를 통해 select
 		List<Post> posts = boardService.findPosts(postSearchDto);
 		model.addAttribute("posts", posts);
-		return "board/boardList";
+		return "board/list";
 	}
 }

@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Board.dto.BoardDto;
+import com.Board.dto.CommentDto;
 import com.Board.dto.PostDto;
 import com.Board.entity.Board;
 import com.Board.entity.Member;
 import com.Board.service.BoardService;
+import com.Board.service.CommentService;
 import com.Board.service.MemberService;
 import com.Board.service.PostService;
 
@@ -35,6 +37,7 @@ public class PostController {
 	
 	private final PostService postService;
 	private final BoardService boardService;
+	private final CommentService commentService;
 	
 	// 게시글 작성 페이지
 	  @GetMapping("/write")
@@ -67,11 +70,30 @@ public class PostController {
 			  BoardDto boardDto = boardService.getPostTitle(postId);
 			  model.addAttribute("boardDto", boardDto);
 			  // 게시글 댓글 가져오기
-			  
-			  // 게시글 댓글 작성하기
+			  List<CommentDto> commentDtoList = commentService.getCommentList(postId, principal.getName());
+			  model.addAttribute("commentDtoList", commentDtoList);
 		  } catch (Exception e) {
 			  e.printStackTrace();
+			  model.addAttribute("failLoading", "페이지 에러");
+			  return "redirect:/board/list";
 		  }
 		  return "post/detail";
+	  }
+	  
+	  // 게시글 댓글 작성
+	  @PostMapping(value="/{postId}/commentWrite")
+	  public String writeComment(@Valid CommentDto commentDto, @PathVariable("postId") Long postId, Model model, Principal principal, BindingResult bindingResult) {
+		  
+		  if (bindingResult.hasErrors()) {
+			  model.addAttribute("commentFail", "댓글 작성 중 문제가 발생하였습니다.");
+			  return "redirect:/board/list";
+		  }
+		  try {
+			  commentService.saveComment(commentDto);
+		  } catch (Exception e) {
+			  model.addAttribute("commentFail", "댓글 작성 중 문제가 발생하였습니다.");
+			  e.printStackTrace();
+		  }
+		  return "redirect:/post/detail";
 	  }
 }

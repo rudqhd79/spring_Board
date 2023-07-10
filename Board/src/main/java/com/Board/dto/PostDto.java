@@ -19,6 +19,7 @@ public class PostDto {
 	private String post_detail;	// 글 내용
 	private String memberName;	// 작성자
 	private List<PostImgDto> postImgDtoList = new ArrayList<>();
+	private List<CommentDto> commentDtoList = new ArrayList<>();
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	

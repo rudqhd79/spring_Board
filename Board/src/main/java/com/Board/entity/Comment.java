@@ -1,6 +1,11 @@
 package com.Board.entity;
 
 import lombok.ToString;
+
+import org.modelmapper.ModelMapper;
+
+import com.Board.dto.CommentDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,4 +37,10 @@ public class Comment extends RegistDate {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="post_id")
 	private Post post;
+	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
+	public CommentDto updateDto(Comment comment) {
+		return modelMapper.map(comment, CommentDto.class);
+	}
 }
