@@ -27,8 +27,12 @@ public class BoardService {
 	
 	private final PostRepository postRepository;
 	
-	public List<Post> findPosts(PostDto postDto) {
-		List<Post> post = postRepository.findByPost(postDto.getId());
-		return post;
+	// 검색(작성자, 제목)
+	public List<Post> findPosts(PostSearchDto postSearchDto) {
+		if (postSearchDto.isNull() == true) {
+			return postRepository.findByBoardPost(postSearchDto.getBoardDto().getId());
+		} else {
+			return postRepository.findByBoardTitleAndMemberNickName(postSearchDto.getWriter(), postSearchDto.getTitle());
+		}
 	}
 }

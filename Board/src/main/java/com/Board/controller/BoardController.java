@@ -37,13 +37,12 @@ public class BoardController {
 
 	private final BoardService boardService;
 	
-	// 게시판 검색 엔진
+	// 게시판 검색 (작성자(닉네임), 제목)
 	@GetMapping(value="/list")
 	public String boardList(@ModelAttribute("postSearch") PostSearchDto postSearchDto ,Model model) {
 		// post ID를 통해 select
 		List<Post> posts = boardService.findPosts(postSearchDto);
-		model.addAttribute("postSearchDto", postSearchDto);
-		
-		return "";
+		model.addAttribute("posts", posts);
+		return "board/boardList";
 	}
 }
