@@ -2,6 +2,8 @@ package com.Board.entity;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+
 import com.Board.dto.BoardDto;
 
 import jakarta.persistence.Column;
@@ -40,8 +42,10 @@ public class Board extends RegistDate {
 	@OneToMany(mappedBy = "board")
 	private List<Post> posts;
 	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
 	// 조회수 증가
-	public void increaseViews() {
+	public  void increaseViews() {
 		this.views ++;
 	}
 	
@@ -55,5 +59,9 @@ public class Board extends RegistDate {
 	public void addPosts(Post post) {
 		this.posts.add(post);
 		post.setBoard(this);
+	}
+
+	public BoardDto updateEntity(Board board) {
+		return modelMapper.map(board, BoardDto.class);
 	}
 }

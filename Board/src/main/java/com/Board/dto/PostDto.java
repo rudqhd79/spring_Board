@@ -1,5 +1,8 @@
 package com.Board.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 
 import com.Board.entity.Board;
@@ -11,12 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PostDto {
-
+	
 	private Long id;
-	private Long memberId;	// 로그인한 사용자의 정보 담기용
-	private String post_detail;
-	private String memberName;
-	private String title;
+	private String post_detail;	// 글 내용
+	private String memberName;	// 작성자
+	private List<PostImgDto> postImgDtoList = new ArrayList<>();
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
@@ -28,10 +30,10 @@ public class PostDto {
 		return modelMapper.map(post, PostDto.class);
 	}
 	
-	public void inputInfo(Long memberId, String detail, String title, String memberName) {
-		this.memberId = memberId;
-		this.memberName = memberName;
-		this.post_detail = detail;
-		this.title = title;
+	public PostDto createPost(String detail, String loginUser) {
+		PostDto postDto = new PostDto();
+		postDto.post_detail = detail;
+		postDto.memberName = loginUser;
+		return postDto;
 	}
 }

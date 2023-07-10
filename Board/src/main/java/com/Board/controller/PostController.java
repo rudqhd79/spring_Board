@@ -34,45 +34,44 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 	
 	private final PostService postService;
-	private final MemberService memberService;
-	// private final BoardService boardService;
-/*
-	// 게시글 작성 페이지
-	@GetMapping(value="/write")
-	public String writePost (Model model, Principal principal) {
-		PostDto postDto = postService.getMemberInfo(principal.getName());
-		model.addAttribute("postDto", postDto);
-		return "post/write";
-	}
-	*/
-	/*
-	// 게시글 작성 submit 경로
-	@PostMapping(value = "/new")
-	public String writePost() {
-		return "redirect:/post/list";
-	}
-	*/
+	private final BoardService boardService;
+	
 	// 게시글 작성 페이지
 	  @GetMapping("/write")
 	  public String writePostPage(Model model) {
 		  // postDto 객체로 정보를 담는다
-		  model.addAttribute("postDto", new PostDto());
+		model.addAttribute("postDto", new PostDto());
 	    return "post/write";
 	  }
 
 	  // 게시글 작성
 	  @PostMapping("/write")
-	  public String writePost(@Valid PostDto postDto, @RequestParam("postImg")List<MultipartFile> multipartFiles, BindingResult bindingResult, Model model, Principal principal) {
-		 // 에러가 있으면 게시판으로 돌아감
-		  if (bindingResult.hasErrors()) {
-			  return "redirect:/board/list";
-		  }
+	  public String writePost(@Valid PostDto postDto, @RequestParam("postImg")List<MultipartFile> multipartFiles, Model model, Principal principal) {
 		  try {
-			  postService.savePost(postDto, multipartFiles);
+			  postService.savePost(postDto, multipartFiles, principal.getName());
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "게시물 등록에 실패했습니다.");
 			return "redirect:/board/list";
 		}
-		  return "post/write";
+		  return "redirect:/board/list";
+	  }
+	  
+	  // 게시글 상세
+	  @GetMapping(value="/{postId}")
+	  public String postDetail(@PathVariable("postId")Long postId, Model model, Principal principal) {
+		  try {
+			  // 게시글 글 가져오기
+			  PostDto postDto = postService.getPostDetail(postId);
+			  model.addAttribute("postDto", postDto);
+			  // 제목은 boardDto에서
+			  BoardDto boardDto = boardService.getPostTitle(postId);
+			  model.addAttribute("boardDto", boardDto);
+			  // 게시글 댓글 가져오기
+			  
+			  // 게시글 댓글 작성하기
+		  } catch (Exception e) {
+			  e.printStackTrace();
+		  }
+		  return "post/detail";
 	  }
 }

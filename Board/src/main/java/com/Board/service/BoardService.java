@@ -17,6 +17,7 @@ import com.Board.repository.BoardRepository;
 import com.Board.repository.MemberRepository;
 import com.Board.repository.PostRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 	
 	private final PostRepository postRepository;
+	private final BoardRepository boardRepository;
 	
 	// 검색(작성자, 제목)
 	public List<Post> findPosts(PostSearchDto postSearchDto) {
@@ -34,5 +36,13 @@ public class BoardService {
 		} else {
 			return postRepository.findByBoardTitleAndMemberNickName(postSearchDto.getWriter(), postSearchDto.getTitle());
 		}
+	}
+
+	// 제목 불러오기
+	public BoardDto getPostTitle(Long postId) throws Exception {
+		Post post = postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
+		Board board = boardRepository.findById(post.getBoard().getId()).orElseThrow(EntityNotFoundException::new);
+		BoardDto boardDto = board.updateEntity(board);
+		return boardDto;
 	}
 }

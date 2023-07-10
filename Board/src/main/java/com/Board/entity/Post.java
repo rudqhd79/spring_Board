@@ -1,6 +1,11 @@
 package com.Board.entity;
 
-import java.util.List; 
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.ui.ModelMap;
+
+import com.Board.dto.PostDto;
 
 import lombok.ToString;
 import jakarta.persistence.Column;
@@ -40,9 +45,16 @@ public class Post extends RegistDate {
 	@OneToMany(mappedBy = "post")
 	private List<PostImg> postImgs;
 	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
 	public static Post createPost(String detail) {
 		Post post = new Post();
 		post.setPost_detail(detail);
 		return post;
 	}
+	
+	public PostDto updateDto(Post post) {
+		return modelMapper.map(post, PostDto.class);
+	}
+	
 }
