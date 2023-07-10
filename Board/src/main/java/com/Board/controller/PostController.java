@@ -54,9 +54,9 @@ public class PostController {
 			  postService.savePost(postDto, multipartFiles, principal.getName());
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "게시물 등록에 실패했습니다.");
-			return "redirect:/board/list";
+			return "/board/list";
 		}
-		  return "redirect:/board/list";
+		  return "/board/list";
 	  }
 	  
 	  // 게시글 상세
@@ -75,7 +75,7 @@ public class PostController {
 		  } catch (Exception e) {
 			  e.printStackTrace();
 			  model.addAttribute("failLoading", "페이지 에러");
-			  return "redirect:/board/list";
+			  return "/board/list";
 		  }
 		  return "post/detail";
 	  }
@@ -86,7 +86,7 @@ public class PostController {
 		  
 		  if (bindingResult.hasErrors()) {
 			  model.addAttribute("commentFail", "댓글 작성 중 문제가 발생하였습니다.");
-			  return "redirect:/board/list";
+			  return "/board/list";
 		  }
 		  try {
 			  commentService.saveComment(commentDto);
@@ -94,6 +94,41 @@ public class PostController {
 			  model.addAttribute("commentFail", "댓글 작성 중 문제가 발생하였습니다.");
 			  e.printStackTrace();
 		  }
-		  return "redirect:/post/detail";
+		  return "/post/detail";
+	  }
+	  
+	  // 사용자의 혼동이 있을 수 있으니 제목은 수정 못하게
+	  @GetMapping(value="/{postId}/modify")
+	  public String modifyPost(@PathVariable("postId") Long postId, Model model, Principal principal) {
+		  try {
+			PostDto postDto = postService.getPostDetail(postId); 
+			model.addAttribute(postDto);
+		  } catch (Exception e) {
+			  model.addAttribute("modifyFail", "수정 중 오류가 발생했습니다.");
+			  e.printStackTrace();
+			  return "/board/list";
+		  }
+		  return "/board/list";
+	  }
+	  
+	  @PostMapping(value="/{postId}/modify")
+	  public String modifyPost(@PathVariable("postId") Long postId, @Valid PostDto postDto, BindingResult bindingResult, Model model, @RequestParam("postImgFile") List<MultipartFile> postImgFile, Principal principal) {
+		  
+		  if (bindingResult.hasErrors()) {
+			  model.addAttribute("modifyError", "에러");
+			  return "/board/list";
+		  }
+		  
+		  postDto.setId(postId);
+		  
+		  try {
+			  postService.updatePost(postDto, postImgFile);
+		  } catch (Exception e) {
+			  model.addAttribute("modifyFail", "수정 중 오류가 발생했습니다.");
+			  e.printStackTrace();
+			  return "/board/list";
+		  }
+		  
+		  return "/board/list";
 	  }
 }

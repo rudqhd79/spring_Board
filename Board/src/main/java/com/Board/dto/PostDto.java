@@ -18,6 +18,7 @@ public class PostDto {
 	private Long id;
 	private String post_detail;	// 글 내용
 	private String memberName;	// 작성자
+	private List<Long> postImgIdList = new ArrayList<>();
 	private List<PostImgDto> postImgDtoList = new ArrayList<>();
 	private List<CommentDto> commentDtoList = new ArrayList<>();
 	

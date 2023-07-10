@@ -47,6 +47,10 @@ public class Post extends RegistDate {
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
+	public void updatePost(PostDto postDto) {
+		this.post_detail = postDto.getPost_detail();
+	}
+	
 	public static Post createPost(String detail) {
 		Post post = new Post();
 		post.setPost_detail(detail);

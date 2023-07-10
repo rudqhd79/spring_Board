@@ -3,9 +3,6 @@ package com.Board.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.security.auth.login.AccountNotFoundException;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,5 +85,18 @@ public class PostService {
 			postDto.setPostImgDtoList(postImgDtoList);
 			
 		return postDto;
+	}
+
+	// 내용 수정
+	@Transactional
+	public Long updatePost(PostDto postDto, List<MultipartFile> postImgFile) throws Exception {
+		Post post = postRepository.findById(postDto.getId()).orElseThrow(EntityNotFoundException::new);
+		post.updatePost(postDto);
+		List<Long> postImgId = postDto.getPostImgIdList();
+		
+		for (int i = 0; i < postImgId.size(); i++) {
+			postImgService.updatePostImg(postImgId.get(i), postImgFile.get(i));
+		}
+		return post.getId();
 	}
 }
